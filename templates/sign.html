@@ -1,0 +1,46 @@
+<div class="mytitle">
+    <h1 class="hi">My Boardgame</h1>
+    <button onclick="open_box()" >Sign in</button>
+</div>
+
+<div class="mypost" id="post-box">
+    <div class="container my-3">
+        <form method="post" action="{% url 'common:login' %}">
+            {% csrf_token %}
+            {% if not user.is_authenticated %}
+            <input type="hidden" name="next" value="{{ next }}">
+            {% include "form_errors.html" %}
+            <div class="mb-3">
+                <label for="username">User ID</label>
+                <input type="text" class="form-control" name="username" id="username"
+                        value="{{ form.username.value|default_if_none:'' }}">
+            </div>
+            <div class="mb-3">
+                <label for="password">password</label>
+                <input type="password" class="form-control" name="password" id="password"
+                        value="{{ form.password.value|default_if_none:'' }}">
+            {% else %}
+                <div class="mybtns">Hello {{ user.username }}</div>
+            {% endif %}
+            </div>
+
+            <div class="mybtns">
+                <div>
+                    {% if user.is_authenticated %}
+                    <a class="btn btn-dark" href="{% url 'common:logout' %}">logout</a>
+                    {% else %}
+                    <button class="btn btn-dark" type="submit">login</button>
+                    {% endif %}
+                </div>
+                <div>
+                    {% if not user.is_authenticated %}
+                    <a class="btn btn-dark" href="{% url 'common:signup' %}">Sign Up</a>
+                    {% endif %}
+                </div>
+                    <a onclick="close_box()" type="button" class="btn btn-dark">close box</a>
+            </div>
+        </form>
+    </div>
+
+    </div>
+</div>
